@@ -278,7 +278,7 @@ export default function Home() {
 }
 ```
 
-##UseUser
+## UseUser
 Finally, let's create the UseUser hook.
 
 ```javascript

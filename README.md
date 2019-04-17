@@ -20,7 +20,7 @@ Using `npx` means you don't have to install `create-react-app` globally and ensu
 ### Optional
 Then, what I do, is going into the src folder and change the `app.js` file to `app.jsx`. I just like it better that way. Ideally, I'd like to change `index.js` too, but then I'd have to eject, which is something I also dislike.
 
-##Structure
+## Structure
 In the `src` folder, create the following directories: `Components`, `Views` and `Hooks`.
 
 You don't HAVE to do this, but it will be easier to follow that way. If you don't like this structure, by all means use your own structure.

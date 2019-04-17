@@ -1,11 +1,11 @@
-#User management with React Hooks
-##What are hooks?
+# User management with React Hooks
+## What are hooks?
 
 >Hooks are a new addition in React 16.8. They let you use state and other React features without writing a class.
  
 If you want to learn about hooks, go to this site: [https://reactjs.org/docs/hooks-intro.html](https://reactjs.org/docs/hooks-intro.html)
 
-##Setup
+## Setup
 This is written for a backend setup for JWT token authentication. Maybe, if there's enough people asking for it, I'll make another post for that. If you are, mail me at thomas@codious.io
 
 To start a new front-end project, we're going to use `create-react app`.
@@ -17,7 +17,7 @@ npx create-react-app use-user-demo
 
 Using `npx` means you don't have to install `create-react-app` globally and ensures you always have the latest version.
 
-###Optional
+### Optional
 Then, what I do, is going into the src folder and change the `app.js` file to `app.jsx`. I just like it better that way. Ideally, I'd like to change `index.js` too, but then I'd have to eject, which is something I also dislike.
 
 ##Structure
@@ -50,7 +50,7 @@ src
 
 We're not going to use all of this, but you might want to later, so we'll leve everyting in place.
 
-##Hello, World!
+## Hello, World!
 First, we'll create our `Home` view:
 
 ```javascript
@@ -90,14 +90,12 @@ export default App;
 
 In your terminal folder, go to your application folder and hit `yarn start`.
 
-![Hello, world!](/CODDEV/useUserBlog/screenshots/1.png "Hello, World!")
-
 Success!
 
-##AppBar
+## AppBar
 Next, We're going to create an appBar. I don't really want to do that myself, so...
 
-###Material-ui
+### Material-ui
 ...we'll be using `material-ui`for this. Why? because it's easy and makes your website look professional without a lot of effort.
 
 ```bash
@@ -110,7 +108,7 @@ In the `head` of `public/index.html` paste the following:
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
 ```
 
-###Continuing
+### Continuing
 I copied the appBar code from the Material-ui examples and edited it a little.
 
 ```javascript
@@ -169,11 +167,10 @@ export default function Home() {
   );
 }
 ```
-![AppBar](/CODDEV/useUserBlog/screenshots/2.png "AppBar")
 
 Voilà!
 
-###Login
+### Login
 We're going to add one more component. 
 A simple login screen, copied from the material-ui examples.
 
@@ -280,8 +277,6 @@ export default function Home() {
   );
 }
 ```
-
-![Login](/CODDEV/useUserBlog/screenshots/3.png "Login")
 
 ##UseUser
 Finally, let's create the UseUser hook.

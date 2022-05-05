@@ -1,12 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-
-function getCurrentUser(accessToken) {
-  if (accessToken === 'awesomeAccessToken123456789') {
-    return {
-      name: 'Thomas',
-    };
-  }
-}
+import axios from "axios";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const initialState = {
   user: {},
@@ -16,21 +9,31 @@ const initialState = {
 const UserContext = createContext(initialState);
 
 export function UserProvider({ children }) {
-  const [accessToken, setAccessToken] = useState(localStorage.getItem('access_token'));
+  const [accessToken, setAccessToken] = useState(localStorage.getItem("access_token"));
   const [user, setUser] = useState({});
 
   function handleAccessTokenChange() {
-    const savedAccessToken = localStorage.getItem('access_token');
-    if (!savedAccessToken || savedAccessToken === 'null') {
-      localStorage.setItem('access_token', accessToken);
+    const savedAccessToken = localStorage.getItem("access_token");
+    if (!savedAccessToken || savedAccessToken === "null") {
+      localStorage.setItem("access_token", accessToken);
     }
 
     if (!user.name && accessToken) {
-      const user = getCurrentUser(accessToken);
-      setUser(user);
+      axios({
+        method: "post",
+        url: "http://localhost:8080/getuser",
+        withCredentials: true,
+      }).then((res) => {
+        console.log(res.data.user);
+        if (res.data.user) {
+          setUser(res.data.user);
+        } else {
+          setUser({});
+        }
+      });
     } else if (!accessToken) {
       // Log Out
-      localStorage.removeItem('access_token');
+      localStorage.removeItem("access_token");
       setUser({});
     }
   }
@@ -40,10 +43,8 @@ export function UserProvider({ children }) {
   }, [accessToken]);
 
   return (
-    <UserContext.Provider value={{ user, accessToken, setAccessToken }}>
-      <>
-      {children}
-      </>
+    <UserContext.Provider value={{ user, accessToken, setAccessToken, setUser }}>
+      <>{children}</>
     </UserContext.Provider>
   );
 }

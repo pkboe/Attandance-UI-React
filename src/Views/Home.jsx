@@ -1,7 +1,7 @@
-import React from 'react';
-import AppBar from '../Components/AppBar';
-import Login from '../Components/Login';
-import { useUser } from '../Hooks/UseUser';
+import React from "react";
+import AppBar from "../Components/AppBar";
+import Login from "../Components/Login";
+import { useUser } from "../Hooks/UseUser";
 
 export default function Home() {
   const { user } = useUser();
@@ -9,9 +9,7 @@ export default function Home() {
   return (
     <div>
       <AppBar />
-      {
-        user.name? <h1>{`Hello, ${user.name}`}</h1> : <Login />
-      }
+      {user.name ? <h1>{`Hello, ${user.name}`}</h1> : <Login />}
     </div>
   );
 }

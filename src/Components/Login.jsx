@@ -6,29 +6,31 @@ import {
   InputLabel,
   Paper,
   Typography,
-} from '@material-ui/core';
-import withStyles from '@material-ui/core/styles/withStyles';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import React, { useState } from 'react';
-import { useUser } from '../Hooks/UseUser';
+} from "@material-ui/core";
+import withStyles from "@material-ui/core/styles/withStyles";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import React, { useState } from "react";
+import { useUser } from "../Hooks/UseUser";
+import axios from "axios";
+import Cookies from "js-cookie";
 
-const styles = theme => ({
+const styles = (theme) => ({
   main: {
-    width: 'auto',
-    display: 'block', // Fix IE 11 issue.
+    width: "auto",
+    display: "block", // Fix IE 11 issue.
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
       width: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto',
+      marginLeft: "auto",
+      marginRight: "auto",
     },
   },
   paper: {
     marginTop: theme.spacing.unit * 8,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
   },
   avatar: {
@@ -36,7 +38,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing.unit,
   },
   submit: {
@@ -45,13 +47,13 @@ const styles = theme => ({
 });
 
 function Login(props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [userId, setuserId] = useState("");
+  const [password, setPassword] = useState("");
   const { setAccessToken } = useUser();
   const { classes } = props;
 
-  function handleEmailChange(event) {
-    setEmail(event.target.value);
+  function handleuserIdChange(event) {
+    setuserId(event.target.value);
   }
 
   function handlePasswordChange(event) {
@@ -62,7 +64,26 @@ function Login(props) {
     event.preventDefault();
 
     // Fetch the accessToken from the server
-    setAccessToken('awesomeAccessToken123456789');
+    // axios form data
+    const formData = new FormData();
+    formData.append("userId", userId);
+    formData.append("password", password);
+    axios({
+      method: "post",
+      url: "http://localhost:8080/lin",
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+      withCredentials: true,
+    }).then((res) => {
+      console.log("RESPONSE", res);
+      // localStorage.setItem("access-token", res.data.token);
+      // setAccessToken(res.data.token);
+      if (res.data.token) {
+        setAccessToken(Cookies.get("JWT"));
+      } else {
+        alert("Invalid Credentials");
+      }
+    });
   }
 
   return (
@@ -76,14 +97,14 @@ function Login(props) {
         </Typography>
         <form className={classes.form} onSubmit={handleFormSubmit}>
           <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Email Address</InputLabel>
+            <InputLabel htmlFor="userId">userId</InputLabel>
             <Input
-              id="email"
-              name="email"
-              autoComplete="email"
+              id="userId"
+              name="userId"
+              autoComplete="userId"
               autoFocus
-              onChange={handleEmailChange}
-              value={email}
+              onChange={handleuserIdChange}
+              value={userId}
             />
           </FormControl>
           <FormControl margin="normal" required fullWidth>

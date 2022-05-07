@@ -1,6 +1,8 @@
 import React from "react";
 import AppBar from "../Components/AppBar";
 import Login from "../Components/Login";
+import Main from "../Views/Main";
+
 import { useUser } from "../Hooks/UseUser";
 
 export default function Home() {
@@ -9,7 +11,7 @@ export default function Home() {
   return (
     <div>
       <AppBar />
-      {user.name ? <h1>{`Hello, ${user.name}`}</h1> : <Login />}
+      {user.name ? <Main /> : <Login />}
     </div>
   );
 }

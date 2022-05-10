@@ -105,7 +105,7 @@ function Login(props) {
         </Typography>
         <form className={classes.form} onSubmit={handleFormSubmit}>
           <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="userId">userId</InputLabel>
+            <InputLabel htmlFor="userId">UserId</InputLabel>
             <Input
               id="userId"
               name="userId"

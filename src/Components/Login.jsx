@@ -1,6 +1,7 @@
 import {
   Avatar,
   Button,
+  CircularProgress,
   FormControl,
   Input,
   InputLabel,
@@ -50,6 +51,8 @@ function Login(props) {
   const [userId, setuserId] = useState("");
   const [password, setPassword] = useState("");
   const { setAccessToken } = useUser();
+  // hook isloading is used to show the loading spinner
+  const [isLoading, setIsLoading] = useState(false);
   const { classes } = props;
 
   function handleuserIdChange(event) {
@@ -62,6 +65,7 @@ function Login(props) {
 
   function handleFormSubmit(event) {
     event.preventDefault();
+    setIsLoading(true);
 
     // Fetch the accessToken from the server
     // axios form data
@@ -76,6 +80,7 @@ function Login(props) {
       withCredentials: true,
     }).then((res) => {
       console.log("RESPONSE", res);
+      setIsLoading(false);
       // localStorage.setItem("access-token", res.data.token);
       // setAccessToken(res.data.token);
       if (res.data.token) {
@@ -85,6 +90,9 @@ function Login(props) {
       }
     });
   }
+
+  // useEffect for isLoading
+  // useEffect(() => {}, [isLoading]);
 
   return (
     <main className={classes.main}>
@@ -118,14 +126,17 @@ function Login(props) {
               value={password}
             />
           </FormControl>
+          {/* is loading is flase, show button else spinner */}
+
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            disabled={isLoading}
           >
-            Sign in
+            {isLoading ? <CircularProgress /> : "Sign In"}
           </Button>
         </form>
       </Paper>

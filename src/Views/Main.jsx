@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
-// import Button from mui
 import Button from "@material-ui/core/Button";
-// Import Paper
 import Paper from "@material-ui/core/Paper";
-// fucntional compoent
+import { Grid } from "@material-ui/core";
+import { useUser } from "../Hooks/UseUser";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import axios from "axios";
+import QRCode from "qrcode";
+import { QrReader } from "react-qr-reader";
 
 const styles = (theme) => ({
+  qr: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    width: "100vw",
+  },
   main: {
     width: "auto",
     display: "block", // Fix IE 11 issue.
@@ -19,7 +29,7 @@ const styles = (theme) => ({
     },
   },
   paper: {
-    marginTop: theme.spacing.unit * 8,
+    marginTop: theme.spacing.unit * 16,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -40,16 +50,115 @@ const styles = (theme) => ({
 
 const Main = (props) => {
   const { classes } = props;
+  const { user } = useUser();
+  const [IsTodaysAttendanceMarked, setIsTodaysAttendanceMarked] = useState(false);
+  const [IsTodaysAttendanceMarkedLoading, setIsTodaysAttendanceMarkedLoading] = useState(true);
+  const [text, setText] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [scanResultFile, setScanResultFile] = useState("");
+  const [scanResultWebCam, setScanResultWebCam] = useState("");
+  const qrRef = useRef(null);
+
+  const generateQrCode = async () => {
+    try {
+      const response = await QRCode.toDataURL(text);
+      setImageUrl(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleErrorFile = (error) => {
+    console.log(error);
+  };
+  const handleScanFile = (result) => {
+    if (result) {
+      setScanResultFile(result);
+    }
+  };
+  const onScanFile = () => {
+    qrRef.current.openImageDialog();
+  };
+  const handleErrorWebCam = (error) => {
+    console.log(error);
+  };
+  const handleScanWebCam = (result) => {
+    if (result) {
+      setScanResultWebCam(result);
+    }
+  };
+
+  useEffect(() => {
+    // const response = await axios.get(
+    //   `http://localhost:8080/status?userId=${user.userId}&date=${new Date().toISOString().slice(0, 10)}`
+
+    //   );
+    const getAttandanceStatus = async () => {
+      await axios({
+        method: "get",
+        url: `http://localhost:8080/status?userId=${user.name}&date=${new Date()
+          .toISOString()
+          .slice(0, 10)}`,
+        withCredentials: true,
+      }).then((res) => {
+        console.log(res.data.status);
+        if (res.data.status === "P") {
+          setIsTodaysAttendanceMarked(true);
+        }
+        setIsTodaysAttendanceMarkedLoading(false);
+      });
+    };
+    getAttandanceStatus();
+  }, []);
+
   return (
     <main className={classes.main}>
-      <Paper className={classes.paper}>
-        Hi NAME!
-        {/* button with scan Qr */}
-        <Button variant="contained" color="primary" className={classes.button} onClick={() => {}}>
-          {/* scan QR code */}
-          Scan QR code
-        </Button>
-        {console.log(props)}
+      {/*  */}
+      <Paper
+        classes={classes.paper}
+        style={{
+          marginTop: "10%",
+        }}
+      >
+        {/* <h2> Hi {user.name} !</h2> */}
+        {IsTodaysAttendanceMarkedLoading ? (
+          <div
+            style={{
+              //  center it
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <CircularProgress />
+          </div>
+        ) : IsTodaysAttendanceMarked ? (
+          <h2>
+            Hi {user.name} ! <br /> Your today's attendance is marked.
+          </h2>
+        ) : (
+          <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+            <h3
+              style={{
+                textAlign: "center",
+                marginTop: "40px",
+                marginBottom: "10px",
+                backgroundColor: "#f5f5f5",
+                padding: "10px",
+              }}
+            >
+              {" "}
+              Please scan the QR Code
+            </h3>
+            <QrReader
+              delay={300}
+              style={{ width: "80%", height: "50%" }}
+              onError={handleErrorWebCam}
+              onScan={handleScanWebCam}
+            />
+            <h3></h3>
+          </Grid>
+        )}
       </Paper>
     </main>
   );

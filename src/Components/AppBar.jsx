@@ -1,8 +1,9 @@
-import { AppBar as MuiAppBar, Button, IconButton, Toolbar, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
-import React from 'react';
-import { useUser } from '../Hooks/UseUser';
+import { AppBar as MuiAppBar, Button, IconButton, Toolbar, Typography } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+import MenuIcon from "@material-ui/icons/Menu";
+import React from "react";
+import { useUser } from "../Hooks/UseUser";
+import Cookies from "js-cookie";
 
 const styles = {
   grow: {
@@ -20,6 +21,8 @@ function ButtonAppBar(props) {
 
   function logout() {
     setAccessToken(null);
+    // cookies to null
+    Cookies.remove("JWT");
   }
 
   return (
@@ -29,9 +32,13 @@ function ButtonAppBar(props) {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" color="inherit" className={classes.grow}>
-          {user.name ? user.name : 'Please, log in'}
+          {user.name ? user.name : "Please, log in"}
         </Typography>
-        {user.name && <Button color="inherit" onClick={logout}>Log Out</Button>}
+        {user.name && (
+          <Button color="inherit" onClick={logout}>
+            Log Out
+          </Button>
+        )}
       </Toolbar>
     </MuiAppBar>
   );

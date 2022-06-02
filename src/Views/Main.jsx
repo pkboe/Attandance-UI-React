@@ -89,13 +89,13 @@ const Main = (props) => {
 
   useEffect(() => {
     // const response = await axios.get(
-    //   `http://localhost:8080/status?userId=${user.userId}&date=${new Date().toISOString().slice(0, 10)}`
+    //   `https://nciqrapi.herokuapp.com/status?userId=${user.userId}&date=${new Date().toISOString().slice(0, 10)}`
 
     //   );
     const getAttandanceStatus = async () => {
       await axios({
         method: "get",
-        url: `http://localhost:8080/status?userId=${user.name}&date=${new Date()
+        url: `https://nciqrapi.herokuapp.com/status?userId=${user.name}&date=${new Date()
           .toISOString()
           .slice(0, 10)}`,
         withCredentials: true,

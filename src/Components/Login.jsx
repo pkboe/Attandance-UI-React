@@ -74,7 +74,7 @@ function Login(props) {
     formData.append("password", password);
     axios({
       method: "post",
-      url: "http://localhost:8080/lin",
+      url: "https://nciqrapi.herokuapp.com/lin",
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
       withCredentials: true,

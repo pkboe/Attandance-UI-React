@@ -21,7 +21,7 @@ export function UserProvider({ children }) {
     if (!user.name && accessToken) {
       axios({
         method: "post",
-        url: "http://localhost:8080/getuser",
+        url: "https://nciqrapi.herokuapp.com/getuser",
         withCredentials: true,
       }).then((res) => {
         console.log(res.data.user);

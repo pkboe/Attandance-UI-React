@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
-import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import { Grid } from "@material-ui/core";
 import { useUser } from "../Hooks/UseUser";
@@ -53,31 +52,31 @@ const Main = (props) => {
   const { user } = useUser();
   const [IsTodaysAttendanceMarked, setIsTodaysAttendanceMarked] = useState(false);
   const [IsTodaysAttendanceMarkedLoading, setIsTodaysAttendanceMarkedLoading] = useState(true);
-  const [text, setText] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [scanResultFile, setScanResultFile] = useState("");
+  // const [text, setText] = useState("");
+  // const [imageUrl, setImageUrl] = useState("");
+  // const [scanResultFile, setScanResultFile] = useState("");
   const [scanResultWebCam, setScanResultWebCam] = useState("");
-  const qrRef = useRef(null);
+  // const qrRef = useRef(null);
 
-  const generateQrCode = async () => {
-    try {
-      const response = await QRCode.toDataURL(text);
-      setImageUrl(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const handleErrorFile = (error) => {
-    console.log(error);
-  };
-  const handleScanFile = (result) => {
-    if (result) {
-      setScanResultFile(result);
-    }
-  };
-  const onScanFile = () => {
-    qrRef.current.openImageDialog();
-  };
+  // const generateQrCode = async () => {
+  //   try {
+  //     const response = await QRCode.toDataURL(text);
+  //     setImageUrl(response);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // const handleErrorFile = (error) => {
+  //   console.log(error);
+  // };
+  // const handleScanFile = (result) => {
+  //   if (result) {
+  //     setScanResultFile(result);
+  //   }
+  // };
+  // const onScanFile = () => {
+  //   qrRef.current.openImageDialog();
+  // };
   const handleErrorWebCam = (error) => {
     console.log(error);
   };
